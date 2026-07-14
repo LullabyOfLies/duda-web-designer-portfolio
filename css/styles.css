@@ -193,7 +193,7 @@ button { font-family: inherit; }
 .nav-links { display: flex; align-items: center; gap: 22px; font-weight: 600; font-size: 14px; }
 .nav-links a { color: var(--text-main); }
 .nav-links a:hover { color: var(--brick); }
-.nav-cta { white-space: nowrap; }
+.nav-cta { white-space: nowrap; padding-left: 16px; padding-right: 16px; }
 .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 10px; }
 .nav-burger span { display: block; width: 20px; height: 2px; background: var(--ink); border-radius: 2px; }
 .nav-burger span:last-child { width: 14px; background: var(--brick); }
@@ -532,6 +532,12 @@ button { font-family: inherit; }
 .lane-chip .jr-badge { position: absolute; top: 10px; right: 10px; }
 .lane-chip-label { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink); }
 .lane-chip-label-dark { color: #FAF7F2; }
+
+/* White-Label Retainer CTA matches the Project Build button's padding + height */
+.lane-dark .btn {
+  padding: 14px 26px;
+  border: 1.5px solid transparent;
+}
 
 /* ============ FAQ ============ */
 .faq-list { display: flex; flex-direction: column; }
