@@ -18,5 +18,8 @@ npm-debug.log*
 # Claude Code local settings (machine-specific, not for the repo)
 .claude/
 
+# Local project notes / context (not for the repo)
+/NEXT-STEPS.md
+
 .vercel
 .env*

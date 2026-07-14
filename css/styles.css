@@ -372,12 +372,6 @@ button { font-family: inherit; }
   transition: filter 500ms cubic-bezier(0.32,0.72,0,1), opacity 500ms cubic-bezier(0.32,0.72,0,1);
 }
 .logo-img:hover { filter: grayscale(0); opacity: 1; }
-.logo-chip {
-  display: inline-flex; align-items: center; justify-content: center;
-  padding: 10px 16px; border-radius: 12px; background: rgba(31,29,26,0.85);
-}
-.logo-chip .logo-img { filter: none; opacity: 0.85; }
-.logo-chip:hover .logo-img { opacity: 1; }
 
 /* ============ ABOUT ============ */
 .about-grid { display: flex; flex-wrap: wrap; gap: 72px; }
