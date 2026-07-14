@@ -19,6 +19,6 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-## TODO before going live
+## Production domain
 
-Several files contain a `PLACEHOLDER-DOMAIN`-tagged URL (`https://your-domain-here.com/`) in `index.html`, `robots.txt`, and `sitemap.xml`. Replace every occurrence with the real production domain once one is chosen.
+The production domain is `https://jean-lorenz-recato-portfolio-f8444f8b-e4r89d7nh.vercel.app/` (the Vercel deployment). It is referenced in `index.html`, `robots.txt`, and `sitemap.xml`.
