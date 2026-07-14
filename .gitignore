@@ -1,0 +1,19 @@
+# OS noise
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+
+# Vercel local project state (auth/config, not source)
+.vercel
+
+# Node (kept in case tooling is added later)
+node_modules/
+npm-debug.log*
+
+# Claude Code local settings (machine-specific, not for the repo)
+.claude/
