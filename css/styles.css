@@ -462,8 +462,47 @@ button { font-family: inherit; }
     flex-direction: row;
   }
   .rail-nums{
-    flex-direction: row;
+    flex-direction: row !important;
+    align-items: center ;
   }
+
+  .case-image-frame img{
+    object-fit: fill !important;
+  }
+
+  .tl-next{
+    min-height: 250px !important;
+    gap: 24px !important
+  }
+  .tl-tabs{
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+
+  .process-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .process-section-heading{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .process-section-heading h2{
+    text-align: center !important;
+  }
+
+  #cta {
+    padding: 10% 16px 10% 16px;
+    min-height: 100% !important;
+  }
+  .cta-form-card{
+    padding: 24px !important;
+  }
+
 }
 
 /* ============ CASE STUDIES ============ */
@@ -526,6 +565,7 @@ button { font-family: inherit; }
 .tl-next-desc { margin: 0; font-size: 15.5px; line-height: 1.65; color: rgba(250, 247, 242, 0.72); }
 
 /* ============ PICK A LANE ============ */
+#lanes { background: #FFFAFA; }
 .lanes-row { display: flex; flex-wrap: wrap; gap: 28px; align-items: stretch; justify-content: center; }
 .lane {
   flex: 1 1 380px; max-width: 470px; border-radius: 24px; padding: 36px;
@@ -685,9 +725,9 @@ button { font-family: inherit; }
 @media (max-width: 768px) {
   .section, .case-section, footer { padding-top: 64px; padding-bottom: 64px; }
   #cta { padding-left: 20px; }
-  .cta-image-col { margin-right: 0; border-radius: 24px; min-height: 320px; flex-basis: 100%; }
+  .cta-image-col { margin-right: 0; border-radius: 24px; min-height: 320px; flex-basis: 100%; background-size: contain; }
   #about, #services, #process, #lanes, #faq, #clients { padding-left: 20px; padding-right: 20px; }
-  .cta-inner { flex-direction: column; }
+  .cta-inner { flex-direction: column-reverse; gap: 24px !important; }
   .case-inner { flex-direction: column; text-align: left; }
   .case-image-frame { transform: none; }
   .case-image-frame:hover { transform: translateY(-4px); }
