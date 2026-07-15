@@ -683,6 +683,7 @@ button { font-family: inherit; }
 .cta-p { margin: 16px 0 0; font-size: 16px; line-height: 1.65; color: #FFFAFA; }
 
 #contactForm { display: flex; flex-direction: column; gap: 14px; }
+#contactForm[hidden] { display: none; }
 .form-row { display: flex; flex-wrap: wrap; gap: 14px; }
 .form-row input { flex: 1 1 160px; }
 #contactForm input, #contactForm select, #contactForm textarea {
@@ -704,9 +705,9 @@ button { font-family: inherit; }
   font-family: var(--font-body); font-weight: 700; font-size: 14.5px;
   border-radius: 999px; padding: 16px 26px; width: 100%;
   box-shadow: 0 10px 30px rgba(31, 29, 26, 0.25);
-  transition: var(--ease); background-color: #C3512F;
+  transition: var(--ease); background-color: #1F1D1A;
 }
-.form-submit:hover { background: var(--brick-hover); transform: translateY(-4px); }
+.form-submit:hover { background: #FFFFFF; color: #1F1D1A; transform: translateY(-4px); }
 
 .cta-socials { display: flex; align-items: center; gap: 14px; margin-top: 2px; }
 .social-btn {
