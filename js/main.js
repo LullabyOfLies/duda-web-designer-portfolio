@@ -116,17 +116,82 @@
   });
   renderTimeline(0);
 
-  /* ===== Contact form (mailto fallback) ===== */
+  /* ===== Services slideshow (3s auto-advance, syncs with card hover) ===== */
+  const slideWrap = document.getElementById('servicesSlideshow');
+  if (slideWrap) {
+    const slides = slideWrap.querySelectorAll('.services-slide');
+    const cards = document.querySelectorAll('.services-row .service-card');
+    let si = 0;
+    let slideTimer = null;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function showSlide(n) {
+      slides.forEach((s, i) => {
+        const active = i === n;
+        s.classList.toggle('is-active', active);
+        s.setAttribute('aria-hidden', active ? 'false' : 'true');
+      });
+    }
+    function nextSlide() { si = (si + 1) % slides.length; showSlide(si); }
+    function startSlides() {
+      if (reducedMotion.matches || slides.length < 2) return;
+      slideTimer = setInterval(nextSlide, 3000);
+    }
+    function stopSlides() { if (slideTimer) { clearInterval(slideTimer); slideTimer = null; } }
+    slideWrap.addEventListener('mouseenter', stopSlides);
+    slideWrap.addEventListener('mouseleave', startSlides);
+    /* Hovering a service card shows its related image and pauses the rotation */
+    cards.forEach((card, i) => {
+      card.addEventListener('mouseenter', () => {
+        stopSlides();
+        si = i % slides.length;
+        showSlide(si);
+      });
+      card.addEventListener('mouseleave', startSlides);
+    });
+    startSlides();
+  }
+
+  /* ===== Contact form (POST to Vercel serverless function) ===== */
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('formSubmit');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const d = new FormData(form);
-    const name = d.get('firstName') + ' ' + d.get('lastName');
-    const body = encodeURIComponent('Service: ' + d.get('service') + '\n\n' + d.get('message') + '\n\n— ' + name + ' (' + d.get('email') + ')');
-    window.open('mailto:jeanrecato25@gmail.com?subject=' + encodeURIComponent('Project inquiry from ' + name) + '&body=' + body);
-    submitBtn.textContent = 'Message sent ✓';
-  });
+  if (form && submitBtn) {
+    const defaultLabel = submitBtn.textContent;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const d = new FormData(form);
+      const payload = {
+        firstName: d.get('firstName'),
+        lastName: d.get('lastName'),
+        email: d.get('email'),
+        service: d.get('service'),
+        message: d.get('message'),
+        honeypot: d.get('company')
+      };
+      submitBtn.textContent = 'Sending…';
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || 'Something went wrong.');
+        }
+        form.reset();
+        submitBtn.textContent = 'Message sent ✓';
+      } catch (err) {
+        submitBtn.textContent = 'Try again';
+        console.error('Contact submit failed:', err);
+      } finally {
+        setTimeout(() => {
+          submitBtn.textContent = defaultLabel;
+          submitBtn.disabled = false;
+        }, 4000);
+      }
+    });
+  }
 
   /* ===== Scroll reveal ===== */
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
