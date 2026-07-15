@@ -1,5 +1,19 @@
 // Vercel serverless function: receives the contact form POST and emails it via Resend.
 // Uses the built-in fetch (Node 18+), so no package.json / dependencies are required.
+
+// ---- In-memory rate limiter (per IP, fixed window) ----
+// NOTE: serverless instances are ephemeral, so this map resets on cold starts and is
+// per-instance. It's a solid first layer against casual abuse; for strict, consistent
+// limits across all instances use an external store (e.g. Upstash Redis / Vercel KV).
+const RATE_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const RATE_MAX = 5;                    // max submissions per IP per window
+const rateStore = new Map();           // ip -> [timestamp, ...]
+
+function getClientIp(req) {
+  const xff = req.headers['x-forwarded-for'];
+  return typeof xff === 'string' ? xff.split(',')[0].trim() : (xff || req.socket?.remoteAddress || 'unknown');
+}
+
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -15,6 +29,19 @@ export default async function handler(req, res) {
 
   // Honeypot: hidden field real users never fill in. Pretend success, drop silently.
   if (honeypot) return res.status(200).json({ ok: true });
+
+  // Rate limit per IP (fixed window). Bots caught by the honeypot above never reach here.
+  const ip = getClientIp(req);
+  const now = Date.now();
+  const hits = (rateStore.get(ip) || []).filter((t) => now - t < RATE_WINDOW_MS);
+  if (hits.length === 0) rateStore.delete(ip);
+  if (hits.length >= RATE_MAX) {
+    const retryAfter = Math.ceil((RATE_WINDOW_MS - (now - hits[0])) / 1000);
+    res.setHeader('Retry-After', String(retryAfter));
+    return res.status(429).json({ error: 'Too many messages. Please try again later.' });
+  }
+  hits.push(now);
+  rateStore.set(ip, hits);
 
   const name = `${firstName || ''} ${lastName || ''}`.trim();
   if (!name || !email || !message) {

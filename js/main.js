@@ -179,8 +179,9 @@
           const err = await res.json().catch(() => ({}));
           throw new Error(err.error || 'Something went wrong.');
         }
-        form.reset();
-        submitBtn.textContent = 'Message sent ✓';
+        form.hidden = true;
+        const success = document.getElementById('ctaSuccess');
+        if (success) success.hidden = false;
       } catch (err) {
         submitBtn.textContent = 'Try again';
         console.error('Contact submit failed:', err);
