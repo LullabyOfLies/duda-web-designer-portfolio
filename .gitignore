@@ -20,6 +20,7 @@ npm-debug.log*
 
 # Local project notes / context (not for the repo)
 /NEXT-STEPS.md
+/SEO-NEXT-STEPS.md
 
 .vercel
 .env*
