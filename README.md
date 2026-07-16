@@ -21,4 +21,4 @@ python3 -m http.server 8000
 
 ## Production domain
 
-The production domain is `https://jean-lorenz-recato-portfolio-f8444f8b-e4r89d7nh.vercel.app/` (the Vercel deployment). It is referenced in `index.html`, `robots.txt`, and `sitemap.xml`.
+The production domain is `https://jeanrecato.com/` (custom domain on Vercel). It is referenced in `index.html`, `robots.txt`, and `sitemap.xml`.

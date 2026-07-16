@@ -2,7 +2,7 @@
 <!-- Production domain set to the Vercel deployment URL. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jean-lorenz-recato-portfolio-f8444f8b-e4r89d7nh.vercel.app/</loc>
+    <loc>https://jeanrecato.com/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

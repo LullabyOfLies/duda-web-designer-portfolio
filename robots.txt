@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Production domain (Vercel deployment).
-Sitemap: https://jean-lorenz-recato-portfolio-f8444f8b-e4r89d7nh.vercel.app/sitemap.xml
+Sitemap: https://jeanrecato.com/sitemap.xml
