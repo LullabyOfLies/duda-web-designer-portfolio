@@ -228,6 +228,7 @@ button { font-family: inherit; }
 .mobile-menu.open a:nth-child(3) { animation-delay: 160ms; }
 .mobile-menu.open a:nth-child(4) { animation-delay: 220ms; }
 .mobile-menu.open a:nth-child(5) { animation-delay: 280ms; }
+.mobile-menu.open a:nth-child(6) { animation-delay: 340ms; }
 .mobile-menu a.btn { font-size: 15px; padding: 15px 26px; }
 
 @keyframes jlr-fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
@@ -418,6 +419,147 @@ button { font-family: inherit; }
 .ach-subrow { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 56px; margin-top: 48px; }
 .ach-p { margin: 0; max-width: 280px; font-size: 15.5px; line-height: 1.65; color: #FFFAFA; }
 .ach-p-right { text-align: right; }
+
+/* ============ TESTIMONIALS WALL ============ */
+.testimonials-section {
+  background: var(--cream);
+  padding: 120px 0;
+  border-top: 1px solid var(--line);
+}
+
+.testimonial-wall {
+  width: 100%;
+  background-color: transparent;
+  padding: 20px 0;
+  overflow: hidden;
+  font-family: var(--font-body);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.scroll-row {
+  display: flex;
+  width: max-content;
+  position: relative;
+  z-index: 1;
+  padding: 24px 0;
+  margin-top: -24px;
+  margin-bottom: -24px;
+  transition: z-index 0s;
+}
+
+.scroll-row:hover {
+  z-index: 50;
+}
+
+.scroll-content {
+  display: flex;
+  gap: 24px;
+  padding-right: 24px;
+}
+
+.scroll-left {
+  animation: scroll-left-testimonials linear infinite;
+}
+
+.scroll-right {
+  animation: scroll-right-testimonials linear infinite;
+}
+
+.testimonial-wall:hover .scroll-row {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-left-testimonials {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-right-testimonials {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.testimonial-card-wall {
+  position: relative;
+  min-width: 320px;
+  width: 320px;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 1.25px -5px rgba(0, 0, 0, 0.1), 0 0.5px 0.5px -5px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+  text-align: left;
+}
+
+.testimonial-card-wall:hover {
+  transform: translateY(-8px);
+  background-color: #FFFFFF;
+  border-color: var(--line);
+  box-shadow: 0 3px 3.75px -5px rgba(0, 0, 0, 0.1), 0 1.5px 1.5px -5px rgba(0, 0, 0, 0.04);
+}
+
+.testimonial-header-wall {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.avatar-wall {
+  width: 48px;
+  height: 48px;
+  border-radius: 50px;
+  object-fit: cover;
+  border: 2px solid #FFFFFF;
+  transition: border-color 0.3s ease;
+}
+
+.author-meta-wall {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.author-name-wall {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.author-handle-wall {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin: 1px 0 0 0;
+  transition: color 0.3s ease;
+}
+
+.testimonial-text-wall {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+  opacity: 0.9;
+  transition: color 0.3s ease;
+  text-align: left;
+}
+
+@media (max-width: 640px) {
+  .testimonial-card-wall {
+    min-width: 280px;
+    width: 280px;
+    padding: 20px;
+  }
+}
 
 .stats-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -778,7 +920,7 @@ button { font-family: inherit; }
   .section, .case-section, footer { padding-top: 64px; padding-bottom: 64px; }
   #cta { padding-left: 20px; }
   .cta-image-col { margin-right: 0; border-radius: 24px; min-height: 320px; flex-basis: 100%; background-size: contain; }
-  #about, #services, #process, #lanes, #faq, #clients { padding-left: 20px; padding-right: 20px; }
+  #about, #services, #process, #lanes, #faq, #clients, #testimonials { padding-left: 20px; padding-right: 20px; }
   .cta-inner { flex-direction: column-reverse; gap: 24px !important; }
   .case-inner { flex-direction: column; text-align: left; }
   .case-image-frame { transform: none; }
