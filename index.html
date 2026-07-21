@@ -403,7 +403,7 @@
       <a href="https://www.thelyonbrand.com/" target="_blank" rel="noopener" class="case-link">View Live Site →</a>
     </div>
     <div class="case-image-wrap">
-      <div class="case-image-frame">
+      <div class="case-image-frame lightbox-trigger" role="button" tabindex="0" aria-label="View larger image of The Lyon Brand website" data-lightbox-url="https://www.thelyonbrand.com/" data-lightbox-title="The Lyon Brand">
         <img src="./assets/images/case-studies/lyon-brand.webp" alt="The Lyon Brand SEO agency website homepage mockup" width="897" height="571" loading="lazy" decoding="async">
       </div>
     </div>
@@ -427,7 +427,7 @@
       <a href="https://www.marcuscondolaw.com/" target="_blank" rel="noopener" class="case-link">View Live Site →</a>
     </div>
     <div class="case-image-wrap">
-      <div class="case-image-frame">
+      <div class="case-image-frame lightbox-trigger" role="button" tabindex="0" aria-label="View larger image of Marcus Condo Law website" data-lightbox-url="https://www.marcuscondolaw.com/" data-lightbox-title="Marcus Condo Law">
         <img src="./assets/images/case-studies/marcus-condo-law.webp" alt="Marcus Condo Law condominium law firm website homepage mockup" width="896" height="670" loading="lazy" decoding="async">
       </div>
     </div>
@@ -451,7 +451,7 @@
       <a href="https://www.flowtahoe.com/" target="_blank" rel="noopener" class="case-link">View Live Site →</a>
     </div>
     <div class="case-image-wrap">
-      <div class="case-image-frame">
+      <div class="case-image-frame lightbox-trigger" role="button" tabindex="0" aria-label="View larger image of Flow & Glow Med Spa website" data-lightbox-url="https://www.flowtahoe.com/" data-lightbox-title="Flow &amp; Glow Med Spa">
         <img src="./assets/images/case-studies/flow-glow-medspa.webp" alt="Flow and Glow Med Spa Lake Tahoe wellness website homepage mockup" width="899" height="630" loading="lazy" decoding="async">
       </div>
     </div>
@@ -475,7 +475,7 @@
       <a href="https://www.schlabour.com.au/" target="_blank" rel="noopener" class="case-link">View Live Site →</a>
     </div>
     <div class="case-image-wrap">
-      <div class="case-image-frame">
+      <div class="case-image-frame lightbox-trigger" role="button" tabindex="0" aria-label="View larger image of SCH Labour website" data-lightbox-url="https://www.schlabour.com.au/" data-lightbox-title="SCH Labour">
         <img src="./assets/images/case-studies/sch-labour.webp" alt="SCH Labour Australian labour hire website homepage mockup" width="898" height="622" loading="lazy" decoding="async">
       </div>
     </div>
@@ -948,6 +948,19 @@
     </div>
   </div>
 </footer>
+
+<!-- ═══ LIGHTBOX ═══ -->
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lightbox-backdrop" data-lightbox-close></div>
+  <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    <div class="lightbox-footer">
+      <span class="lightbox-title" id="lightboxTitle"></span>
+      <a href="#" class="btn btn-primary" id="lightboxCta" target="_blank" rel="noopener">Visit Live Site <span class="btn-arrow">↗</span></a>
+    </div>
+  </div>
+</div>
 
 <script src="./js/main.js"></script>
 </body>

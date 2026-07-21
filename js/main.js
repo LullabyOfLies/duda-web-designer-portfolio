@@ -194,22 +194,72 @@
     });
   }
 
-  /* ===== Scroll reveal ===== */
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  requestAnimationFrame(() => {
-    const els = document.querySelectorAll('[data-reveal]');
+  /* ===== Scroll reveal =====
+     Uses a CSS class + transition (not Element.animate/fill:'forwards') because
+     Safari/WebKit can drop composited fill-forwards animations on scroll, leaving
+     revealed content stuck at opacity:0. Toggling a class is stable across browsers. */
+  const els = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (!en.isIntersecting) return;
         io.unobserve(en.target);
-        const frames = reduced.matches
-          ? [{ opacity: 0 }, { opacity: 1 }]
-          : [{ opacity: 0, transform: 'translateY(16px)', filter: 'blur(6px)' }, { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' }];
-        en.target.animate(frames, { duration: reduced.matches ? 150 : 800, easing: 'cubic-bezier(0.32,0.72,0,1)', fill: 'forwards' });
+        en.target.classList.add('is-revealed');
       });
     }, { threshold: 0.12 });
     els.forEach((el) => io.observe(el));
-  });
+  } else {
+    els.forEach((el) => el.classList.add('is-revealed'));
+  }
+
+  /* ===== Lightbox (case study images) ===== */
+  const lightbox = document.getElementById('lightbox');
+  if (lightbox) {
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxCta = document.getElementById('lightboxCta');
+    const lightboxClose = document.getElementById('lightboxClose');
+    let lastTrigger = null;
+
+    function openLightbox(trigger) {
+      const img = trigger.querySelector('img');
+      if (!img) return;
+      lastTrigger = trigger;
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt || '';
+      lightboxTitle.textContent = trigger.dataset.lightboxTitle || '';
+      const url = trigger.dataset.lightboxUrl;
+      if (url) {
+        lightboxCta.href = url;
+        lightboxCta.hidden = false;
+      } else {
+        lightboxCta.hidden = true;
+      }
+      lightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+      lightboxClose.focus();
+    }
+    function closeLightbox() {
+      lightbox.hidden = true;
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+      if (lastTrigger) lastTrigger.focus();
+    }
+    document.querySelectorAll('.lightbox-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', () => openLightbox(trigger));
+      trigger.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(trigger);
+        }
+      });
+    });
+    lightbox.querySelectorAll('[data-lightbox-close]').forEach((el) => el.addEventListener('click', closeLightbox));
+    lightboxClose.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    });
+  }
 
   /* ===== Fast-count stats, reset when out of view ===== */
   const statEls = document.querySelectorAll('.stat-num');
