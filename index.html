@@ -883,7 +883,7 @@
         <p class="cta-p">Tell me about your project — I'll reply within one business day with next steps and a realistic timeline.</p>
       </div>
       <form id="contactForm" method="post">
-        <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" aria-label="Leave this field empty">
+        <input type="text" name="website_url_2" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" aria-label="Leave this field empty">
         <div class="form-row">
           <input type="text" name="firstName" placeholder="First name" required>
           <input type="text" name="lastName" placeholder="Last name" required>
@@ -897,7 +897,10 @@
           <option value="Aviation Website">Aviation Website</option>
           <option value="Something else">Something else</option>
         </select>
-        <textarea name="message" placeholder="Tell me more" rows="4" required></textarea>
+        <textarea name="message" placeholder="Tell me more" rows="4" maxlength="5000" required></textarea>
+        <!-- Cloudflare Turnstile bot check. Replace with your site key from the Cloudflare dashboard. -->
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAFRB6hVUndrIhxgu" data-appearance="interaction-only"></div>
+        <p class="form-error" id="formError" role="alert" hidden></p>
         <button type="submit" class="form-submit" id="formSubmit">Send message</button>
       </form>
       <div class="cta-success" id="ctaSuccess" hidden>
@@ -962,6 +965,7 @@
   </div>
 </div>
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="./js/main.js"></script>
 </body>
 </html>

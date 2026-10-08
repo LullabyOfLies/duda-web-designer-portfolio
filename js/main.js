@@ -154,18 +154,34 @@
   /* ===== Contact form (POST to Vercel serverless function) ===== */
   const form = document.getElementById('contactForm');
   const submitBtn = document.getElementById('formSubmit');
+  const formError = document.getElementById('formError');
   if (form && submitBtn) {
     const defaultLabel = submitBtn.textContent;
+    const pageLoadedAt = Date.now(); // sent with the form; the server drops instant (bot) submits
+    const showError = (msg) => {
+      if (!formError) return;
+      formError.textContent = msg || '';
+      formError.hidden = !msg;
+    };
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      showError('');
       const d = new FormData(form);
+      // Turnstile injects its token into a hidden "cf-turnstile-response" input.
+      const turnstileToken = d.get('cf-turnstile-response');
+      if (!turnstileToken) {
+        showError('Please wait a moment for the security check to finish, then try again.');
+        return;
+      }
       const payload = {
         firstName: d.get('firstName'),
         lastName: d.get('lastName'),
         email: d.get('email'),
         service: d.get('service'),
         message: d.get('message'),
-        honeypot: d.get('company')
+        honeypot: d.get('website_url_2'),
+        elapsedMs: Date.now() - pageLoadedAt,
+        turnstileToken
       };
       submitBtn.textContent = 'Sending…';
       submitBtn.disabled = true;
@@ -184,7 +200,12 @@
         if (success) success.hidden = false;
       } catch (err) {
         submitBtn.textContent = 'Try again';
+        showError(err instanceof TypeError
+          ? 'Network error. Please check your connection and try again.'
+          : err.message);
         console.error('Contact submit failed:', err);
+        // Turnstile tokens are single-use, so get a fresh one for the retry.
+        if (window.turnstile) window.turnstile.reset();
       } finally {
         setTimeout(() => {
           submitBtn.textContent = defaultLabel;
