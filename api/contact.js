@@ -15,6 +15,12 @@ const LINK_RE = /\bhttps?:\/\/|\bwww\./gi;
 // HTML anchors and BBCode links are a forum-spam signature no real visitor types.
 const MARKUP_LINK_RE = /<\s*a\s[^>]*href|\[\s*(url|link)\b/i;
 
+// Exact templated messages a Turnstile-passing bot keeps sending (seen Sep–Oct 2026).
+// Matched against the whole message, so real inquiries that merely contain these words pass.
+const SPAM_MESSAGES = [
+  /^i would like more information\.?\s*please contact me by email\s*[—–-]+\s*jean lorenz recato\.?$/i,
+];
+
 // Common throwaway-email domains (not exhaustive; MX lookup below catches made-up domains).
 const DISPOSABLE_DOMAINS = new Set([
   'mailinator.com', 'guerrillamail.com', 'guerrillamail.net', 'sharklasers.com', '10minutemail.com',
@@ -147,6 +153,13 @@ export default async function handler(req, res) {
     }
   }
   const { firstName, lastName, email, service, message } = fields;
+
+  // Known bot template: pretend success, drop silently so the sender doesn't adapt.
+  const normalizedMessage = message.replace(/\s+/g, ' ');
+  if (SPAM_MESSAGES.some((re) => re.test(normalizedMessage))) {
+    console.info('Dropped templated spam from', email.split('@').pop());
+    return res.status(200).json({ ok: true });
+  }
 
   // Rate limit per IP (fixed window). Bots caught by the honeypot above never reach here.
   const ip = getClientIp(req);
